@@ -1,0 +1,13 @@
+TODO
+ - game function editor (snags, traits, etc.)
+ 	-tiles
+ 	-enemies
+ 	-reinforcements
+ 	-starting squares
+ - game engine 
+ - ai
+ - build levels
+
+
+map tutorial:
+http://tebrigade.b1.jcink.com/index.php?showtopic=1959
