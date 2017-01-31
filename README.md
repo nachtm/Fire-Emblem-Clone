@@ -9,13 +9,13 @@ MapBuilder is the tile editor, which is complete and should be relatively intuit
 ###Initialization
 MapBuilder has two command-line usages:
 
-java MapBuilder filename.txt
-	loads a previously generated map (maps are saved as text files)
+```java MapBuilder filename.txt```
+Loads a previously generated map (maps are saved as text files)
 
-java MapBuilder filename.txt TileDir
-	creates a new map using a given tile directory. Directories are located inside the "Tiles" folder. For example, If I wanted to use the OverworldRegular tileset from FE7, I would call java MapBuilder map.txt Tiles/FE7/OverworldRegular from the command line.
+```java MapBuilder filename.txt TileDir```
+Creates a new map using a given tile directory. Directories are located inside the "Tiles" folder. For example, If I wanted to use the OverworldRegular tileset from FE7, I would call `java MapBuilder map.txt Tiles/FE7/OverworldRegular`from the command line.
 
-a.txt and b.txt are two files I used for testing so feel free to take a look at them to see a previously generated file.
+`a.txt` and `b.txt` are two files I used for testing so feel free to take a look at them to see a previously generated file.
 
 ###Usage Guide
 
@@ -31,4 +31,4 @@ Dimension changes don't take effect until you click "Apply Changes".
 As mentioned above, Current Tile displays the tile you have currently selected. Finally, Save both prints the textfile to the command line (for debugging purposes) and writes the data to the file specified upon initialization.
 
 ##GameEngine
-Currently not functional. As a matter of fact, GameEngine.java doesn't compile at the moment. I'm working on that. 
+Currently not functional. As a matter of fact, `GameEngine.java` doesn't compile at the moment. I'm working on that. 
