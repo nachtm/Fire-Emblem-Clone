@@ -1,9 +1,12 @@
+package game;
+
+import common.Location;
+import common.Utils;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
-import javax.swing.*;
 import javax.imageio.*;
-import java.awt.event.*;
 import java.util.List;
 import java.util.*;
 
@@ -47,7 +50,7 @@ public class Unit{
 		this.name = name;
 		try{
 			BufferedImage temp = ImageIO.read(battleSprite);
-			this.battleSprite = MapBuilder.scaleImage(temp, scale);
+			this.battleSprite = Utils.scaleImage(temp, scale);
 		} catch (IOException e){
 			//System.out.println(name);
 		}

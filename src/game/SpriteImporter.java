@@ -1,3 +1,7 @@
+package game;
+
+import common.Utils;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
@@ -23,7 +27,7 @@ public class SpriteImporter{
 
 		for(int y = 42; y < 4600; y += 133){
 			//if(y < 2965 || y > 3200){	
-			BufferedImage current = TileGen.toBufferedImage(MapBuilder.getTile(
+			BufferedImage current = Utils.toBufferedImage(Utils.getTileImage(
 									bigSprites, 189, 220, y-1, y+25, 1));
 			HashMap<Integer, Integer> toTransparent = new HashMap<Integer,Integer>();
 			toTransparent.put(ALPHA.getRGB(), TRANS.getRGB());
@@ -85,8 +89,8 @@ public class SpriteImporter{
 			}
 		}
 		System.out.println(leftWidth+" "+rightWidth+" "+topHeight+" "+bottomHeight);
-		Image toReturn = MapBuilder.getTile(img, leftWidth, rightWidth, topHeight, bottomHeight, 1);
-		return TileGen.toBufferedImage(toReturn);
+		Image toReturn = Utils.getTileImage(img, leftWidth, rightWidth, topHeight, bottomHeight, 1);
+		return Utils.toBufferedImage(toReturn);
 	}
 
 	public static void test(List<BufferedImage> list){

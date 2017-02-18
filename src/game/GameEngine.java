@@ -1,3 +1,11 @@
+package game;
+
+import common.Location;
+import common.Tile;
+import common.Map;
+import common.Utils;
+import mapbuilder.MapBuilder;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
@@ -11,9 +19,9 @@ import java.util.ArrayList;
 public class GameEngine{
 
 	private static final int DISPLAY_SCALE = 2;
-	private static final int TILE_SIZE = TileGen.TILE_SIZE;
+	private static final int TILE_SIZE = Tile.TILE_SIZE;
 	private final File mapFile;
-	private Map map;
+	private common.Map map;
 	private GamePanel canvas;
 	private StatSheet charSheet;
 	private AttackResults atkResults;
@@ -122,7 +130,7 @@ public class GameEngine{
 				}
 				ImageIcon img = null;
 				try{
-					img = new ImageIcon(MapBuilder.getTile(tileDir, picLocation[0], 
+					img = new ImageIcon(MapBuilder.getTile(tileDir, picLocation[0],
 									picLocation[1], DISPLAY_SCALE));
 				} catch(IOException e){
 					System.out.println("Could not find image. " + tileDir +picLocation[0]+picLocation[1]);
@@ -283,9 +291,9 @@ public class GameEngine{
 
 			try{
 				moveSquare = ImageIO.read(new File("Sprites/BlueSquare.png"));
-				moveSquare = MapBuilder.scaleImage(moveSquare,GameEngine.DISPLAY_SCALE);
+				moveSquare = Utils.scaleImage(moveSquare,GameEngine.DISPLAY_SCALE);
 				atkSquare = ImageIO.read(new File("Sprites/RedSquare.png"));
-				atkSquare = MapBuilder.scaleImage(atkSquare,GameEngine.DISPLAY_SCALE);
+				atkSquare = Utils.scaleImage(atkSquare,GameEngine.DISPLAY_SCALE);
 			} catch(IOException e){
 				System.err.println(e);
 				System.exit(1);
@@ -397,7 +405,7 @@ public class GameEngine{
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 			for(int y = 0; y < map.getHeight(); y++){
 				for(int x = 0; x < map.getWidth(); x++){
-					g.drawImage(map.getTile(x,y).getImage(), x*TILE_SIZE*DISPLAY_SCALE,
+					g.drawImage(map.getTileObject(x,y).getImage(), x*TILE_SIZE*DISPLAY_SCALE,
 						y*TILE_SIZE*DISPLAY_SCALE, null);
 				}
 			}
@@ -452,8 +460,8 @@ public class GameEngine{
 			add(noCharSelected);
 			this.panel = panel;
 
-			validActions = new ArrayList<GameAction>();
-			allActions = new Tree<GameAction>();
+			validActions = new ArrayList<>();
+			allActions = new ArrayList<>();
 			allActions.add(new Move(panel));
 			allActions.add(new Attack(panel));
 			allActions.add(new EndTurn(panel));

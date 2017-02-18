@@ -1,11 +1,10 @@
-import java.awt.*;
-import java.awt.image.*;
-import java.io.*;
+package common;
+
 import javax.swing.*;
-import javax.imageio.*;
-import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
+import java.util.Set;
 
 public class Map{
 	private List<List<Tile>> mapArray;
@@ -76,7 +75,7 @@ public class Map{
 		width--;
 	}
 
-	public Tile getTile(int x, int y){
+	public Tile getTileObject(int x, int y){
 		return mapArray.get(y).get(x);
 	}
 	

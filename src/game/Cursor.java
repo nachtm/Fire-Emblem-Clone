@@ -1,13 +1,11 @@
+package game;
+
+import common.Location;
 
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
-import java.util.*;
-import javax.swing.*;
 import javax.imageio.*;
-import java.awt.event.*;
-import java.util.List;
-import java.util.ArrayList;
 
 public class Cursor{
 	public static String FILEPATH = "Sprites/Cursor.png";

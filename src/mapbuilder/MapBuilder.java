@@ -9,6 +9,8 @@
  * -clean up code
  */
 
+package mapbuilder;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
@@ -16,6 +18,9 @@ import java.util.*;
 import javax.swing.*;
 import javax.imageio.*;
 import java.awt.event.*;
+
+import common.*;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -25,7 +30,7 @@ public class MapBuilder extends JFrame{
 	public static final int DISPLAY_SCALE = 2;
 	private static final int DEFAULT_HEIGHT = 10;
 	private static final int DEFAULT_WIDTH = 10;
-	private static final int TILE_SIZE = TileGen.TILE_SIZE;
+	private static final int TILE_SIZE = Tile.TILE_SIZE;
 	private JLabel currTileDisplay;
 	private ImageIcon currTileImg;
 	private String currTileLoc;
@@ -36,7 +41,7 @@ public class MapBuilder extends JFrame{
 	private JPanel parentPanel;
 	private JTextField widthField;
 	private JTextField heightField;
-	private Map backEnd;
+	private common.Map backEnd;
 
 	private int mapWidth;
 	private int mapHeight;
@@ -57,7 +62,7 @@ public class MapBuilder extends JFrame{
 			System.out.println(e);
 			System.exit(0);
 		}
-		currTileDisplay = new JLabel(new ImageIcon(scaleImage(
+		currTileDisplay = new JLabel(new ImageIcon(Utils.scaleImage(
 										currTileImg.getImage(), 2)));
 		this.input = toLoad;
 		output = toSave;
@@ -287,7 +292,7 @@ public class MapBuilder extends JFrame{
 							gbc.gridy = i;
 							for(int j = 0; j < mapWidth; j++){
 								gbc.gridx = j;
-								map.add(backEnd.getTile(j, i), gbc);
+								map.add(backEnd.getTileObject(j, i), gbc);
 							}
 						}
 						map.revalidate();
@@ -311,8 +316,8 @@ public class MapBuilder extends JFrame{
 		public void actionPerformed(ActionEvent e){
 			for(int x = 0; x < mapWidth; x++){
 				for(int y = 0; y < mapHeight; y++){
-					Tile t = backEnd.getTile(x,y);
-					t.setIcon(new ImageIcon(scaleImage(currTileImg.getImage(), DISPLAY_SCALE)));
+					Tile t = backEnd.getTileObject(x,y);
+					t.setIcon(new ImageIcon(Utils.scaleImage(currTileImg.getImage(), DISPLAY_SCALE)));
 					//System.out.println("fillButton actionListener");
 					t.setSource(currTileLoc);
 				}
@@ -408,8 +413,8 @@ public class MapBuilder extends JFrame{
 		public void mouseClicked(MouseEvent e){
 			Tile t = (Tile) e.getSource();
 			ImageIcon temp = (ImageIcon) t.getIcon();
-			currTileImg = new ImageIcon(scaleImage(temp.getImage(), DISPLAY_SCALE));
-			currTileDisplay.setIcon(new ImageIcon(scaleImage(temp.getImage(), DISPLAY_SCALE*2)));
+			currTileImg = new ImageIcon(Utils.scaleImage(temp.getImage(), DISPLAY_SCALE));
+			currTileDisplay.setIcon(new ImageIcon(Utils.scaleImage(temp.getImage(), DISPLAY_SCALE*2)));
 			currTileLoc = t.getSource();
 		}
 	}
@@ -419,8 +424,8 @@ public class MapBuilder extends JFrame{
 	 * The image should be the upper-left tile of a given tileset if this is called from
 	 * the constructor.
 	 */
-	public Map emptyMap(int width, int height){
-		Map toReturn = new Map(width, height, tileDir);
+	public common.Map emptyMap(int width, int height){
+		common.Map toReturn = new common.Map(width, height, tileDir);
 		int[] mov = {1,1,1,1,1,1,1,1,1,1,1};
 		for(int i = 0; i < height; i++){
 			List<Tile> tList = new ArrayList<Tile>();
@@ -438,12 +443,12 @@ public class MapBuilder extends JFrame{
 		return toReturn;
 	}
 
-	public Map loadMap(File input) throws FileNotFoundException {
+	public common.Map loadMap(File input) throws FileNotFoundException {
 		Scanner s = new Scanner(input);
 		tileDir = s.nextLine();
 		int width = s.nextInt();
 		int height = s.nextInt();
-		Map toReturn = new Map(width, height, tileDir);
+		common.Map toReturn = new common.Map(width, height, tileDir);
 		s.nextLine(); //eat up rest of line.
 		for(int y = 0; y < height; y++){
 			String line = s.nextLine();
@@ -525,7 +530,7 @@ public class MapBuilder extends JFrame{
 			gbc.gridy = i;
 			for(int j = 0; j < mapWidth; j++){
 				gbc.gridx = j;
-				holder.add(backEnd.getTile(j,i),gbc);
+				holder.add(backEnd.getTileObject(j,i),gbc);
 			}
 		}
 		// gbc.gridy = 0;
@@ -568,22 +573,9 @@ public class MapBuilder extends JFrame{
 	class MapButtonListener extends MouseAdapter{
 		public void mouseClicked(MouseEvent e){
 			Tile t = (Tile) e.getSource();
-			t.setIcon(new ImageIcon(scaleImage(currTileImg.getImage(), 1)));
+			t.setIcon(new ImageIcon(Utils.scaleImage(currTileImg.getImage(), 1)));
 			t.setSource(currTileLoc);
 		}
-	}	
-
-	/**
-	 * Uses a ImageFilter to return a cropped version of the image. Hopefully
-	 * useful when handling tilesets.
-	 */
-	public static Image getTile(Image tileset, int x1, int x2, int y1, int y2, int scale){
-		JPanel producer = new JPanel(); 
-		//Crop tileset to grab tile
-		ImageFilter cropper = new CropImageFilter(x1, y1, x2-x1, y2-y1);
-		Image cropped = producer.createImage(new FilteredImageSource(tileset.getSource(), cropper));
-
-		return scaleImage(cropped, scale);
 	}
 
 	/**
@@ -593,29 +585,9 @@ public class MapBuilder extends JFrame{
 	public static Image getTile(String filepath, int x, int y, int scale) throws IOException{
 		//System.out.println(filepath+"/"+x+"_"+y);
 		try{
-			return scaleImage(ImageIO.read(new File(filepath+"/"+x+"_"+y+".png")), scale);
+			return Utils.scaleImage(ImageIO.read(new File(filepath+"/"+x+"_"+y+".png")), scale);
 		} catch(IOException e){
-			return scaleImage(ImageIO.read(new File(filepath+"/"+x+"_"+y)), scale);
+			return Utils.scaleImage(ImageIO.read(new File(filepath+"/"+x+"_"+y)), scale);
 		}	
-	}
-
-	/**
-	 * Scales an image. To be used for tiles. Probably not the most efficient 
-	 * scaling method.
-	 */
-	public static Image scaleImage(Image orig, int scale){
-		Image result;
-		if(scale != 1){	
-			int width = orig.getWidth(null);
-			int height = orig.getHeight(null);
-			//Scale cropped image to proper size
-			result = new BufferedImage(width*scale, height*scale, BufferedImage.TYPE_INT_ARGB); 
-			Graphics g = ((BufferedImage) result).createGraphics();
-			g.drawImage(orig, 0, 0, width*scale, height*scale, 0,0,width-1,height-1,null);
-			g.dispose();
-		} else{
-			return orig;
-		}
-		return result;	
 	}
 }

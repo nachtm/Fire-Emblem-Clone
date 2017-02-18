@@ -1,4 +1,4 @@
-/**
+package game; /**
  * TODO: 
  * list of buttons?
  * map buttons to action

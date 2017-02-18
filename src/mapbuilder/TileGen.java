@@ -1,10 +1,14 @@
+package mapbuilder;
+
+import common.Tile;
+import common.Utils;
+
 import java.io.*;
 import javax.imageio.*;
 import java.awt.image.*;
 import java.awt.*;
 
 public class TileGen{
-	public static final int TILE_SIZE = 16;
 
 	public static void main(String[] args){
 		// if(args.length != 1){
@@ -37,16 +41,16 @@ public class TileGen{
 		int width = localTileSet.getWidth();
 		int height = localTileSet.getHeight();
 
-		if(width%TILE_SIZE!=0 || height%TILE_SIZE!=0){
+		if(width% Tile.TILE_SIZE!=0 || height% Tile.TILE_SIZE!=0){
 			System.out.println("Something's up. Tileset size doesn't match expectations.");
 		}
 
-		for(int i = 0; i < height; i+= TILE_SIZE){
-			for(int j = 0; j < width; j+= TILE_SIZE){
+		for(int i = 0; i < height; i+= Tile.TILE_SIZE){
+			for(int j = 0; j < width; j+= Tile.TILE_SIZE){
 				try{
-					Image curr = MapBuilder.getTile(localTileSet, j, j+TILE_SIZE, i, i+TILE_SIZE, 1);
+					Image curr = Utils.getTileImage(localTileSet, j, j+ Tile.TILE_SIZE, i, i+ Tile.TILE_SIZE, 1);
 					File output = new File(location+"/"+j+"_"+i+".png");
-					ImageIO.write(toBufferedImage(curr),"png", output);
+					ImageIO.write(Utils.toBufferedImage(curr),"png", output);
 
 				} catch(IOException e){
 					System.out.println("whoops");
@@ -68,20 +72,4 @@ public class TileGen{
 		return s.toString();
 	}
 
-	public static BufferedImage toBufferedImage(Image img){
-	    if (img instanceof BufferedImage){
-	        return (BufferedImage) img;
-	    }
-
-	    // Create a buffered image with transparency
-	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
-	    // Draw the image on to the buffered image
-	    Graphics2D bGr = bimage.createGraphics();
-	    bGr.drawImage(img, 0, 0, null);
-	    bGr.dispose();
-
-	    // Return the buffered image
-	    return bimage;
-	}
 }

@@ -1,3 +1,5 @@
+package common;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
@@ -5,13 +7,13 @@ import javax.swing.*;
 import javax.imageio.*;
 import java.awt.event.*;
 
-
 //we'll have to clean up reduntant methods -- I made tile extend JButton after
 //designing most of the class... :-/
 public class Tile extends JLabel{
 	public static final String[] MOVE_DICT = {"Foot","Armor","Knight 1",
 					"Knight 2", "Nomad", "Nomad Trooper", "Fighter",
 					"Mage", "Flier", "Bandit", "Pirate"};
+	public static final int TILE_SIZE = 16;
 
 	private String name;
 	private String imgPath;

@@ -1,3 +1,5 @@
+package game;
+
 public class Stats{
 	private int level;
 	private int exp;
