@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Micah on 4/24/2018.
@@ -29,4 +30,12 @@ public interface IUnit {
     void setLocation(Location newSpot);
 
     void endTurn();
+
+    List<IItem> getInventory();
+
+    void addToInventory(IItem toAdd);
+
+    void equip(int index);
+
+    Optional<IWeapon> getEquipped();
 }

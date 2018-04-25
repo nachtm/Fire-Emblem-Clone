@@ -1,5 +1,7 @@
 package engine;
 
+import java.util.function.Predicate;
+
 /**
  * Created by Micah on 4/24/2018.
  */
@@ -9,7 +11,7 @@ public class Move implements IAction {
 
     //We only want one Move instance at a time
     private static final Move instance = new Move();
-    private Move(){}
+    public Move(){}
 
     public static Move getInstance(IGameEngine eng){
         instance.eng = eng;
@@ -24,7 +26,9 @@ public class Move implements IAction {
     @Override
     public boolean perform(IUnit selected, IState current) {
         Location target = eng.promptForLocation();
-        while(getDistance(selected.getLocation(), target) >= selected.getStats().getMove()){
+        //TODO: don't allow moving on top of each other.
+        while(getMoveDistance(selected.getLocation(), target) >= selected.getStats().getMove() ||
+                current.getUnits().stream().anyMatch(hasSameLocation(target))){
             target = eng.promptForLocation();
         }
         selected.setLocation(target);
@@ -32,8 +36,12 @@ public class Move implements IAction {
         return true;
     }
 
+    private Predicate<? super IUnit> hasSameLocation(Location targetLocation){
+        return (unit -> unit.getLocation().equals(targetLocation));
+    }
+
     //this'll get more complicated once we add in terrain
-    private int getDistance(Location from, Location to){
-        return Math.abs(from.x - to.x) + Math.abs(from.y - to.y);
+    private int getMoveDistance(Location from, Location to){
+        return Location.manhattanDistance(from, to);
     }
 }

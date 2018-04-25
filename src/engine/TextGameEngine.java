@@ -1,7 +1,5 @@
 package engine;
 
-import game.GameEngine;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -24,14 +22,22 @@ public class TextGameEngine implements IGameEngine {
     private IActionList createActionList(){
         List<IAction> alToBe = new ArrayList<>();
         alToBe.add(Move.getInstance(this));
+        alToBe.add(DummyAttack.getInstance(this));
         alToBe.add(EndUnitTurn.getInstance());
         return new ActionList(alToBe);
     }
 
     private IState initializeState(){
         List<IUnit> units = new ArrayList<>();
-        units.add(new Unit(new DummyStats(), new Location(0, 0)));
-        units.add(new Unit(new DummyStats(), new Location(5,5)));
+        IStats unitStats = new Stats(1, 0, 20, 20, 5, 0, 2, 0, 1, 0, 5, 10);
+        units.add(new Unit(unitStats, new Location(0, 0)));
+        units.add(new Unit(unitStats, new Location(5,5)));
+
+        //give and equip weapons
+        units.stream().forEach(unit -> {
+            unit.addToInventory(new DummyWeapon(1));
+            unit.equip(0);
+        });
         return new State(units, new TerrainMap());
     }
 
@@ -57,7 +63,7 @@ public class TextGameEngine implements IGameEngine {
                 System.out.println("Select a character, or type n to end turn:");
                 List<IUnit> unitChoices = state.getUnmovedUnits();
                 for (int i = 0; i < unitChoices.size(); i++) {
-                    System.out.println(i + " " + unitChoices.get(i).getLocation());
+                    System.out.println(i + " " + unitChoices.get(i));
                 }
                 String selection = userIn.next();
                 if (selection.equalsIgnoreCase("n")) {
