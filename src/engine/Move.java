@@ -20,7 +20,8 @@ public class Move implements IAction {
 
     @Override
     public boolean isValid(IUnit selected, IState current) {
-        return !selected.hasMoved();
+        return !selected.isRescued() &&
+                !selected.hasMoved();
     }
 
     @Override
@@ -32,6 +33,9 @@ public class Move implements IAction {
             target = eng.promptForLocation();
         }
         selected.setLocation(target);
+        if(selected.isRescuing().isPresent()){
+            selected.isRescuing().get().setLocation(selected.getLocation());
+        }
         selected.setMovedTrue();
         return true;
     }

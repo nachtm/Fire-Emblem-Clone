@@ -24,12 +24,14 @@ public class TextGameEngine implements IGameEngine {
         alToBe.add(Move.getInstance(this));
         alToBe.add(DummyAttack.getInstance(this));
         alToBe.add(EndUnitTurn.getInstance());
+        alToBe.add(new Rescue(this));
         return new ActionList(alToBe);
     }
 
     private IState initializeState(){
         List<IUnit> units = new ArrayList<>();
-        IStats unitStats = new Stats(1, 0, 20, 20, 5, 0, 2, 0, 1, 0, 5, 10);
+        IStats unitStats = new Stats(1, 0, 20, 20, 5,
+                0, 2, 0, 1, 0, 5, 10, 7);
         units.add(new Unit(unitStats, new Location(0, 0)));
         units.add(new Unit(unitStats, new Location(5,5)));
 

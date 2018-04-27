@@ -72,7 +72,7 @@ Build the `src` folder, then run TextGameEngine. Right now it's just a rough tex
         * CHEST
         * DOOR
     * Rescuing
-        * RESCUE
+        * ~~RESCUE~~
         * GIVE (rescue)
         * TAKE (rescue)
         * DROP (rescue)

@@ -16,8 +16,10 @@ public class Stats implements IStats {
     private int resistance;
     private int constitution;
     private int move;
+    private int aid;
 
-    public Stats(int level, int exp, int hp, int maxhp, int strength, int skill, int speed, int luck, int defense, int resistance, int constitution, int move) {
+    public Stats(int level, int exp, int hp, int maxhp, int strength, int skill, int speed, int luck, int defense,
+                 int resistance, int constitution, int move, int aid) {
         this.level = level;
         this.exp = exp;
         this.hp = hp;
@@ -30,6 +32,7 @@ public class Stats implements IStats {
         this.resistance = resistance;
         this.constitution = constitution;
         this.move = move;
+        this.aid = aid;
     }
 
     @Override
@@ -88,6 +91,11 @@ public class Stats implements IStats {
     }
 
     @Override
+    public int getAid() {
+        return aid;
+    }
+
+    @Override
     public int getMove() {
         return move;
     }
@@ -138,5 +146,10 @@ public class Stats implements IStats {
 
     public void setMove(int move) {
         this.move = move;
+    }
+
+    @Override
+    public void setAid(int aid) {
+        this.aid = aid;
     }
 }

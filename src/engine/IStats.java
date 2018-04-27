@@ -17,6 +17,7 @@ public interface IStats {
     int getDefense();
     int getResistance();
     int getConstitution();
+    int getAid();
 
     void setLevel(int level);
     void setExp(int exp);
@@ -30,4 +31,5 @@ public interface IStats {
     void setResistance(int resistance);
     void setConstitution(int constitution);
     void setMove(int move);
+    void setAid(int aid);
 }

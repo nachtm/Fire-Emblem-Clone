@@ -1,5 +1,7 @@
 package engine;
 
+import common.Utils;
+
 import java.util.function.Predicate;
 
 /**
@@ -20,8 +22,10 @@ public class DummyAttack implements IAction {
     @Override
     public boolean isValid(IUnit selected, IState current) {
         int range = selected.getEquipped().orElse(new DummyWeapon(0)).getRange();
+                //not rescued
+        return  !selected.isRescued() &&
                 //weapon equipped
-        return  selected.getEquipped().isPresent() &&
+                selected.getEquipped().isPresent() &&
                 //haven't attacked
                 !selected.hasAttacked() &&
                 //there's an enemy in range
@@ -34,12 +38,12 @@ public class DummyAttack implements IAction {
     @Override
     public boolean perform(IUnit selected, IState current) {
         Location targetLoc = eng.promptForLocation();
-        while(current.getUnits().stream().noneMatch(isAtLocation(targetLoc))){
+        while(current.getUnits().stream().noneMatch(Utils.isAtLocation(targetLoc))){
             targetLoc = eng.promptForLocation();
         }
 
         //perform attack
-        IUnit targetUnit = current.getUnits().stream().filter(isAtLocation(targetLoc)).findFirst().get();
+        IUnit targetUnit = current.getUnits().stream().filter(Utils.isAtLocation(targetLoc)).findFirst().get();
         int targetDef = targetUnit.getStats().getDefense();
         int targetStr = targetUnit.getStats().getStrength();
         int targetHp = targetUnit.getStats().getHp();
@@ -54,7 +58,4 @@ public class DummyAttack implements IAction {
         return true;
     }
 
-    private Predicate<? super IUnit> isAtLocation(Location loc){
-        return (unit -> unit.getLocation().equals(loc));
-    }
 }

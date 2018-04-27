@@ -66,6 +66,11 @@ public class DummyStats implements IStats {
     }
 
     @Override
+    public int getAid() {
+        return 0;
+    }
+
+    @Override
     public void setLevel(int level) {}
 
     @Override
@@ -100,4 +105,9 @@ public class DummyStats implements IStats {
 
     @Override
     public void setMove(int move) {}
+
+    @Override
+    public void setAid(int aid) {
+
+    }
 }

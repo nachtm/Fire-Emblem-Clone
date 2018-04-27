@@ -1,11 +1,14 @@
 package common;
 
+import engine.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
+import java.util.function.Predicate;
 
 /**
  * Created by Micah on 2/18/2017.
@@ -60,4 +63,9 @@ public class Utils {
 
 		return scaleImage(cropped, scale);
 	}
+
+	public static Predicate<? super IUnit> isAtLocation(engine.Location loc){
+		return (unit -> unit.getLocation().equals(loc));
+	}
+
 }

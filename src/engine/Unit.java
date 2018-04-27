@@ -1,7 +1,6 @@
 package engine;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,20 +10,23 @@ import java.util.Optional;
 public class Unit implements IUnit {
 
     private IStats stats;
-    private List<IAction> actionsThisTurn;
     private Location location;
     private List<IItem> items;
     private Optional<IWeapon> equipped;
     private boolean hasMoved;
     private boolean isRescued;
     private boolean hasAttacked;
+    private Optional<IUnit> rescuing;
 
     public Unit(IStats stats, Location location){
         this.stats = stats;
-        this.actionsThisTurn = new LinkedList<>();
         this.location = location;
-        this.equipped = Optional.empty();
         this.items = new ArrayList<>();
+        this.equipped = Optional.empty();
+        this.hasMoved = false;
+        this.isRescued = false;
+        this.hasAttacked = false;
+        this.rescuing = Optional.empty();
     }
 
     @Override
@@ -63,6 +65,16 @@ public class Unit implements IUnit {
     }
 
     @Override
+    public Optional<IUnit> isRescuing() {
+        return rescuing;
+    }
+
+    @Override
+    public void setRescuing(IUnit unit) {
+        this.rescuing = Optional.of(unit);
+    }
+
+    @Override
     public Location getLocation() {
         return location;
     }
@@ -74,7 +86,8 @@ public class Unit implements IUnit {
 
     @Override
     public void endTurn() {
-        actionsThisTurn.clear();
+        this.hasMoved = false;
+        this.hasAttacked = false;
     }
 
     @Override

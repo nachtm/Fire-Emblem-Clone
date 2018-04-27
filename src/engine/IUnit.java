@@ -26,6 +26,10 @@ public interface IUnit {
 
     void setRescued(boolean val);
 
+    Optional<IUnit> isRescuing();
+
+    void setRescuing(IUnit unit);
+
     Location getLocation();
 
     void setLocation(Location newSpot);
