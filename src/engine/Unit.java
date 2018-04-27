@@ -15,6 +15,9 @@ public class Unit implements IUnit {
     private Location location;
     private List<IItem> items;
     private Optional<IWeapon> equipped;
+    private boolean hasMoved;
+    private boolean isRescued;
+    private boolean hasAttacked;
 
     public Unit(IStats stats, Location location){
         this.stats = stats;
@@ -30,13 +33,33 @@ public class Unit implements IUnit {
     }
 
     @Override
-    public List<IAction> actionsPerformedThisTurn() {
-        return actionsThisTurn;
+    public boolean hasMoved() {
+        return hasMoved;
     }
 
     @Override
-    public void registerAction(IAction performed) {
-        actionsThisTurn.add(performed);
+    public void setMovedTrue() {
+        hasMoved = true;
+    }
+
+    @Override
+    public boolean hasAttacked() {
+        return hasAttacked;
+    }
+
+    @Override
+    public void setAttackedTrue() {
+        hasAttacked = true;
+    }
+
+    @Override
+    public boolean isRescued() {
+        return isRescued;
+    }
+
+    @Override
+    public void setRescued(boolean val) {
+        isRescued  = val;
     }
 
     @Override
@@ -80,7 +103,7 @@ public class Unit implements IUnit {
 
     @Override
     public String toString(){
-        return location + " " + this.stats.getHp() + "/" + this.stats.getMaxhp();
+        return location + " " + this.stats.getHp() + "/" + this.stats.getMaxhp() + (isRescued() ? " (R)" : "");
     }
 
 }

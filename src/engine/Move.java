@@ -20,7 +20,7 @@ public class Move implements IAction {
 
     @Override
     public boolean isValid(IUnit selected, IState current) {
-        return !selected.actionsPerformedThisTurn().contains(this);
+        return !selected.hasMoved();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class Move implements IAction {
             target = eng.promptForLocation();
         }
         selected.setLocation(target);
-        selected.registerAction(this);
+        selected.setMovedTrue();
         return true;
     }
 

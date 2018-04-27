@@ -23,7 +23,7 @@ public class DummyAttack implements IAction {
                 //weapon equipped
         return  selected.getEquipped().isPresent() &&
                 //haven't attacked
-                !selected.actionsPerformedThisTurn().contains(this) &&
+                !selected.hasAttacked() &&
                 //there's an enemy in range
                 current.getUnits().stream().anyMatch(unit ->
                         Location.manhattanDistance(
@@ -50,7 +50,7 @@ public class DummyAttack implements IAction {
         selected.getStats().setHp(selHp - (targetStr - selDef));
 
         //register action
-        selected.registerAction(this);
+        selected.setAttackedTrue();
         return true;
     }
 

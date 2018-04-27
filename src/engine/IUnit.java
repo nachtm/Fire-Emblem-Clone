@@ -14,16 +14,17 @@ public interface IUnit {
      */
     IStats getStats();
 
-    /**
-     * @return a list of all the actions that this character has performed during this turn.
-     */
-    List<IAction> actionsPerformedThisTurn();
+    boolean hasMoved();
 
-    /**
-     * Register performed as having happened this turn.
-     * @param performed the action performed.
-     */
-    void registerAction(IAction performed);
+    void setMovedTrue();
+
+    boolean hasAttacked();
+
+    void setAttackedTrue();
+
+    boolean isRescued();
+
+    void setRescued(boolean val);
 
     Location getLocation();
 
